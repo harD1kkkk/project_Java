@@ -27,8 +27,12 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public User createUser(User user) {
+        if (repo.existsByEmail(user.getEmail())) {
+            throw new RuntimeException("Email already in use: " + user.getEmail());
+        }
         return repo.save(user);
     }
+
 
     @Override
     public User updateUser(int id, User user) {
